@@ -1,0 +1,32 @@
+name: Build LMS ASP.NET Core MVC App
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: ⬇️ Checkout source code
+      uses: actions/checkout@v4
+
+    - name: 🧰 Setup .NET SDK 9.0
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 9.0.x  # Use 9.0 (preview) or 8.0.x if 9.0 not yet released
+
+    - name: 🔄 Restore NuGet packages
+      run: dotnet restore
+
+    - name: 🏗 Build the LMS project
+      run: dotnet build --no-restore --configuration Release
+
+    # Optional: Run tests if you have them
+    - name: 🧪 Run tests
+      run: dotnet test --no-build --verbosity normal
+      continue-on-error: true # Optional: Don’t fail build if tests fail (for early projects)
