@@ -1,0 +1,31 @@
+﻿@model List<Course>
+@{
+    ViewData["Title"] = "My Courses";
+}
+<h2 class="text-center mb-4">📘 My Courses</h2>
+@if (!Model.Any())
+{
+    <div class="alert alert-info text-center">You are not assigned to any courses.</div>
+}
+else
+{
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Department</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var course in Model)
+            {
+                <tr>
+                    <td>@course.Title</td>
+                    <td>@course.Description</td>
+                    <td>@course.Department</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

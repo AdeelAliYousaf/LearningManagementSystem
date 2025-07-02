@@ -1,0 +1,121 @@
+﻿@model List<EnrollmentOverviewViewModel>
+@{
+    ViewData["Title"] = "Class Enrollments";
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<div class="container py-4">
+    <h2 class="text-center mb-4">📚 Class Enrollment Overview</h2>
+
+    <!-- 🔍 Search Bar -->
+    <div class="input-group mb-4">
+        <span class="input-group-text">Search</span>
+        <input type="text" id="searchInput" class="form-control" placeholder="Search by student, class, course, or roll number">
+    </div>
+
+    <!-- 📋 Class-wise Enrollment Cards -->
+    @foreach (var classGroup in Model)
+    {
+        <div class="card mb-4 shadow class-card">
+            <div class="card-header bg-primary text-white">
+                <strong class="class-name">Class: @classGroup.ClassName</strong>
+            </div>
+            <div class="card-body">
+                @if (classGroup.Students.Any())
+                {
+                    <table class="table table-bordered student-table mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Roll No</th>
+                                <th>Student Name</th>
+                                <th>Enrolled Courses</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var student in classGroup.Students)
+                            {
+                                <tr class="student-row">
+                                    <td class="roll-number">@student.RollNumber</td>
+                                    <td class="student-name">@student.FullName</td>
+                                    <td class="courses">
+                                        @if (student.Courses.Any())
+                                        {
+                                            <ul class="mb-0">
+                                                @foreach (var course in student.Courses)
+                                                {
+                                                    <li class="course-name">@course</li>
+                                                }
+                                            </ul>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">No courses enrolled</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <p class="text-muted">No students enrolled in this class.</p>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+<!-- 🔍 Client-side Search Script -->
+<script>
+    function highlightText(text, term) {
+        if (!term) return text;
+        const regex = new RegExp(`(${term})`, 'gi');
+        return text.replace(regex, '<mark>$1</mark>');
+    }
+
+    $(document).ready(function () {
+        $('#searchInput').on('keyup', function () {
+            const searchTerm = $(this).val().toLowerCase();
+
+            $('.class-card').each(function () {
+                let classVisible = false;
+                const $classCard = $(this);
+                const className = $classCard.find('.class-name').text().toLowerCase();
+
+                $classCard.find('.student-row').each(function () {
+                    const $row = $(this);
+                    const studentName = $row.find('.student-name').text();
+                    const rollNumber = $row.find('.roll-number').text();
+                    const courseList = $row.find('.course-name').map(function () { return $(this).text(); }).get().join(' ');
+
+                    const match = studentName.toLowerCase().includes(searchTerm) ||
+                                  rollNumber.toLowerCase().includes(searchTerm) ||
+                                  courseList.toLowerCase().includes(searchTerm) ||
+                                  className.includes(searchTerm);
+
+                    if (match) {
+                        classVisible = true;
+                        $row.show();
+
+                        // Highlight
+                        $row.find('.student-name').html(highlightText(studentName, searchTerm));
+                        $row.find('.roll-number').html(highlightText(rollNumber, searchTerm));
+                        $row.find('.course-name').each(function () {
+                            const course = $(this).text();
+                            $(this).html(highlightText(course, searchTerm));
+                        });
+
+                    } else {
+                        $row.hide();
+                    }
+                });
+
+                $classCard.toggle(classVisible);
+            });
+        });
+    });
+</script>
+

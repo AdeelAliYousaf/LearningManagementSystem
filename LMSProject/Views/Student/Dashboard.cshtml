@@ -1,0 +1,59 @@
+﻿+
+
+<div class="container py-5">
+    <h2 class="text-center mb-5">🎓 Student Dashboard</h2>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 justify-content-center">
+
+        <div class="col">
+            <div class="card shadow text-center h-100">
+                <div class="card-body">
+                    <h5 class="card-title">👤 Personal Details</h5>
+                    <p class="card-text">View your profile and academic info</p>
+                    <a href="@Url.Action("PersonalDetails", "Student")" class="btn btn-dark">View Profile</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card shadow text-center h-100">
+                <div class="card-body">
+                    <h5 class="card-title">📚 My Courses</h5>
+                    <p class="card-text">View enrolled courses and instructors</p>
+                    <a href="@Url.Action("StudentCourses", "Student")" class="btn btn-primary">View Courses</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card shadow text-center h-100">
+                <div class="card-body">
+                    <h5 class="card-title">📝 Assignments</h5>
+                    <p class="card-text">Check your assignments and due dates</p>
+                    <a href="@Url.Action("StudentAssignments", "Student")" class="btn btn-success">View Assignments</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card shadow text-center h-100">
+                <div class="card-body">
+                    <h5 class="card-title">📢 Announcements</h5>
+                    <p class="card-text">Stay updated with course announcements</p>
+                    <a href="@Url.Action("StudentAnnouncements", "Student")" class="btn btn-warning">View Announcements</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card shadow text-center h-100">
+                <div class="card-body">
+                    <h5 class="card-title">✅ Submissions</h5>
+                    <p class="card-text">Track your submitted assignments</p>
+                    <a href="@Url.Action("StudentSubmissions", "Student")" class="btn btn-info">View Submissions</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

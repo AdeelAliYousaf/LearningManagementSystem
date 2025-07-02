@@ -1,0 +1,19 @@
+﻿@model LMSProject.Models.Student
+
+@{
+    ViewData["Title"] = "Personal Details";
+}
+
+<div class="container py-4">
+    <h2 class="text-center mb-4">👤 My Personal Details</h2>
+
+    <div class="card shadow-sm mx-auto" style="max-width: 600px;">
+        <div class="card-body">
+            <h5 class="card-title">@Model.User.FullName</h5>
+            <p class="card-text"><strong>Email:</strong> @Model.User.Email</p>
+            <p class="card-text"><strong>Roll Number:</strong> @Model.RollNumber</p>
+            <p class="card-text"><strong>Registration Number:</strong> @Model.RegistrationNumber</p>
+            <p class="card-text"><strong>Class:</strong> @Model.Class</p>
+        </div>
+    </div>
+</div>

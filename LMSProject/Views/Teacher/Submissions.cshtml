@@ -1,0 +1,57 @@
+﻿@model List<Submission>
+
+
+<table class="table table-bordered">
+    <thead class="table-dark text-center">
+        <tr>
+            <th>Student</th>
+            <th>Class</th>
+            <th>Roll No</th>
+            <th>Assignment</th>
+            <th>Submitted On</th>
+            <th>File</th>
+            <th>Grade</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var submission in Model)
+        {
+            <tr>
+                <td>@submission.Student?.FullName</td>
+                <td>@submission.Student?.Student?.Class</td>
+                <td>@submission.Student?.Student?.RollNumber</td>
+                <td>@submission.Assignment?.Title</td>
+                <td>@submission.SubmittedAt.ToString("dd MMM yyyy")</td>
+                <td>
+                    <a href="@submission.FilePath" target="_blank" class="btn btn-sm btn-outline-primary">View</a>
+                </td>
+                <td>
+                    @if (!string.IsNullOrEmpty(submission.Grade))
+                    {
+                        <div class="d-flex">
+                            <select class="form-select form-select-sm me-2" disabled>
+                                <option>@submission.Grade</option>
+                            </select>
+                            <button class="btn btn-sm btn-secondary" disabled>✔</button>
+                        </div>
+                    }
+                    else
+                    {
+                        <form asp-action="GradeSubmission" method="post" class="d-flex">
+                            <input type="hidden" name="submissionId" value="@submission.Id" />
+                            <select name="grade" class="form-select form-select-sm me-2" required>
+                                <option value="">--</option>
+                                @foreach (var g in new[] { "A", "B", "C", "D", "F" })
+                                {
+                                    <option value="@g">@g</option>
+                                }
+                            </select>
+                            <button type="submit" class="btn btn-sm btn-success">✔</button>
+                        </form>
+                    }
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>

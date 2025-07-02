@@ -1,0 +1,58 @@
+﻿@model List<LMSProject.Models.Course>
+@{
+    ViewData["Title"] = "Assign Teacher to Course";
+    var teachers = ViewBag.Teachers as List<ApplicationUser>;
+}
+
+<div class="container py-4">
+    <h2 class="text-center mb-4">Assign Teacher to Unassigned Courses</h2>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info text-center">All courses have assigned teachers.</div>
+    }
+    else
+    {
+        <table class="table table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>Course Title</th>
+                    <th>Description</th>
+                    <th>Assign Teacher</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var course in Model)
+                {
+                    <tr>
+                        <td>@course.Title</td>
+                        <td>@course.Description</td>
+                        <td>
+                            <form asp-action="AssignTeacher" method="post" class="d-flex gap-2 align-items-center">
+                                <input type="hidden" name="courseId" value="@course.Id" />
+                                <select name="teacherId" class="form-select w-auto" required>
+                                    <option value="">-- Select Teacher --</option>
+                                    @foreach (var teacher in teachers)
+                                    {
+                                        <option value="@teacher.Id">@teacher.FullName (@teacher.Email)</option>
+                                    }
+                                </select>
+                                <button type="submit" class="btn btn-sm btn-success">Assign</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

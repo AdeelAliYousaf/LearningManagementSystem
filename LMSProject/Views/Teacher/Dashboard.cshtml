@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "Teacher Dashboard";
+}
+<div class="container py-5">
+    <h2 class="text-center mb-4">👨‍🏫 Teacher Dashboard</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-4 mb-3">
+            <div class="card shadow text-center">
+                <div class="card-body">
+                    <h5 class="card-title">📘 My Courses</h5>
+                    <a href="@Url.Action("MyCourses", "Teacher")" class="btn btn-primary">View Courses</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card shadow text-center">
+                <div class="card-body">
+                    <h5 class="card-title">📝 Assignments</h5>
+                    <a href="@Url.Action("MyAssignments", "Teacher")" class="btn btn-success">Manage Assignments</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card shadow text-center">
+                <div class="card-body">
+                    <h5 class="card-title">📢 Announcements</h5>
+                    <a href="@Url.Action("MyAnnouncements", "Teacher")" class="btn btn-warning">Post Announcements</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card shadow text-center">
+                <div class="card-body">
+                    <h5 class="card-title">✅ Submissions</h5>
+                    <a href="@Url.Action("Submissions", "Teacher")" class="btn btn-info">Review Submissions</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

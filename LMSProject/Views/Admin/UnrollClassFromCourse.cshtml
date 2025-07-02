@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "Unroll Class from Course";
+    var classes = ViewBag.Classes as List<string>;
+    var courses = ViewBag.Courses as List<LMSProject.Models.Course>;
+}
+
+<div class="container py-4">
+    <h2 class="mb-4 text-center">❌ Unroll Class from Course</h2>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+
+    <form method="post">
+        <div class="mb-3">
+            <label class="form-label">Select Class</label>
+            <select name="className" class="form-select" required>
+                <option value="">-- Select Class --</option>
+                @foreach (var cls in classes)
+                {
+                    <option value="@cls">@cls</option>
+                }
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Select Course</label>
+            <select name="courseId" class="form-select" required>
+                <option value="">-- Select Course --</option>
+                @foreach (var course in courses)
+                {
+                    <option value="@course.Id">@course.Title</option>
+                }
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-danger">Unroll Class</button>
+    </form>
+</div>

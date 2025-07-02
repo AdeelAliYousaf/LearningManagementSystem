@@ -1,0 +1,99 @@
+﻿@model Course
+@{
+    ViewData["Title"] = "Register Course";
+}
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-warning">
+        <ul>
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <li>@error.ErrorMessage</li>
+            }
+        </ul>
+    </div>
+}
+
+<div class="container py-4">
+    <h2 class="text-center mb-4">Register New Course</h2>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
+
+    <form asp-action="RegisterCourse" method="post">
+        <div class="mb-3">
+            <label class="form-label">Title</label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Department</label>
+            <select asp-for="Department" class="form-select" id="departmentSelect" required>
+                <option value="">-- Select Department --</option>
+                <option>Computer Science</option>
+                <option>Mathematics</option>
+                <option>English</option>
+                <option>Humanities</option>
+                <option>Physics</option>
+                <option>Chemistry</option>
+                <option>Economics</option>
+                <option>Others</option>
+            </select>
+            <span asp-validation-for="Department" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Select Teacher</label>
+            <select asp-for="TeacherId" class="form-select" id="teacherSelect" required>
+                <option value="">-- Select Teacher --</option>
+                <!-- Teachers will be populated here via JS -->
+            </select>
+            <span asp-validation-for="TeacherId" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Create Course</button>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.getElementById("departmentSelect").addEventListener("change", function () {
+            const department = this.value;
+            const teacherSelect = document.getElementById("teacherSelect");
+
+            // Clear previous options
+            teacherSelect.innerHTML = '<option value="">-- Select Teacher --</option>';
+
+            if (department) {
+                fetch(`/Admin/GetTeachersBySpecialization?specialization=${encodeURIComponent(department)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        data.forEach(teacher => {
+                            const option = document.createElement("option");
+                            option.value = teacher.id;
+                            option.text = `${teacher.fullName} (${teacher.email})`;
+                            teacherSelect.appendChild(option);
+                        });
+                    })
+                    .catch(error => {
+                        console.error("Error loading teachers:", error);
+                    });
+            }
+        });
+    </script>
+}

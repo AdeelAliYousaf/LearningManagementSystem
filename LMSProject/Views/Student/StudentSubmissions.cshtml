@@ -1,0 +1,73 @@
+﻿@model List<Submission>
+@inject IWebHostEnvironment Env
+
+@{
+    ViewData["Title"] = "📂 My Submissions";
+    var today = DateTime.Now;
+}
+
+<h2 class="text-center mb-4">📂 My Submissions</h2>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info text-center">You haven't submitted any assignments yet.</div>
+}
+else
+{
+    <form asp-action="SubmitAssignment" asp-controller="Student" enctype="multipart/form-data" method="post">
+        <table class="table table-bordered align-middle">
+            <thead class="table-dark text-center">
+                <tr>
+                    <th>Assignment</th>
+                    <th>Course</th>
+                    <th>Submitted On</th>
+                    <th>Status</th>
+                    <th>Upload / Submit</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var sub in Model)
+                {
+                    <tr>
+                        <td>@sub.Assignment?.Title</td>
+                        <td>@sub.Assignment?.Course?.Title</td>
+                        <td>
+                            @(sub.SubmittedAt != DateTime.MinValue ? sub.SubmittedAt.ToString("dd MMM yyyy") : "—")
+                        </td>
+                        <td>
+                            @if (!string.IsNullOrEmpty(sub.Grade))
+                            {
+                                <span class="badge bg-success">Graded: @sub.Grade</span>
+                            }
+                            else if (sub.SubmittedAt != DateTime.MinValue)
+                            {
+                                <span class="badge bg-secondary">Submitted</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-warning text-dark">Pending</span>
+                            }
+                        </td>
+                        <td>
+                            @if (sub.Assignment.DueDate >= today && sub.SubmittedAt == DateTime.MinValue)
+                            {
+                                <div class="input-group">
+                                    <input type="file" name="Files[@sub.Id]" class="form-control" accept=".pdf,.doc,.docx" required />
+                                    <button type="submit" name="SubmissionId" value="@sub.Id" class="btn btn-success btn-sm">Submit</button>
+                                </div>
+                            }
+                            else if (sub.Assignment.DueDate < today && sub.SubmittedAt == DateTime.MinValue)
+                            {
+                                <span class="text-danger">Deadline Passed</span>
+                            }
+                            else
+                            {
+                                <a class="btn btn-outline-primary btn-sm" href="@sub.FilePath" download>📥 Download</a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </form>
+}

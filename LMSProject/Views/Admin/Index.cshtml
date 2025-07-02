@@ -1,0 +1,100 @@
+﻿@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="container py-5">
+    <h2 class="text-center mb-4">Admin Dashboard</h2>
+
+    <div class="row justify-content-center">
+        <!-- Enroll User -->
+        <div class="col-md-4">
+            <div class="card shadow-lg mb-4">
+                <div class="card-body text-center">
+                    <h5 class="card-title">👥 Enroll User</h5>
+                    <p class="card-text">Add a new teacher or student to the system.</p>
+                    <a href="@Url.Action("EnrollUser", "Admin")" class="btn btn-success">Go to Enroll</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Register Course -->
+        <div class="col-md-4">
+            <div class="card shadow-lg mb-4">
+                <div class="card-body text-center">
+                    <h5 class="card-title">📘 Register Course</h5>
+                    <p class="card-text">Create a new course and assign a teacher.</p>
+                    <a href="@Url.Action("RegisterCourse", "Admin")" class="btn btn-primary">Go to Course Registration</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Enroll Course to Class -->
+        <div class="col-md-4">
+            <div class="card shadow-lg mb-4">
+                <div class="card-body text-center">
+                    <h5 class="card-title">🏫 Enroll Course to Class</h5>
+                    <p class="card-text">Assign a course to all students in a class.</p>
+                    <a href="@Url.Action("EnrollClassToCourse", "Admin")" class="btn btn-warning">Go to Class Enrollment</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- View Enrollments -->
+        <div class="col-md-4">
+            <div class="card shadow-lg mb-4">
+                <div class="card-body text-center">
+                    <h5 class="card-title">📋 Class Enrollments</h5>
+                    <p class="card-text">See which students are enrolled in which courses.</p>
+                    <a href="@Url.Action("ClassEnrollments", "Admin")" class="btn btn-dark">View Enrollments</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- View Teacher Course Assignments -->
+        <div class="col-md-4">
+            <div class="card shadow-lg mb-4">
+                <div class="card-body text-center">
+                    <h5 class="card-title">👨‍🏫 View Teacher Assignments</h5>
+                    <p class="card-text">See which teacher is assigned to which course.</p>
+                    <a href="@Url.Action("TeacherCourseAssignments", "Admin")" class="btn btn-info">View Assignments</a>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Unroll Class -->
+        <div class="col-md-4">
+            <div class="card shadow-lg mb-4">
+                <div class="card-body text-center">
+                    <h5 class="card-title">🚫 Unroll Class</h5>
+                    <p class="card-text">Remove a course from all students in a class.</p>
+                    <a href="@Url.Action("UnrollClassFromCourse", "Admin")" class="btn btn-danger">Go to Unroll</a>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Unassign Teacher -->
+        <div class="col-md-4">
+            <div class="card shadow-lg mb-4">
+                <div class="card-body text-center">
+                    <h5 class="card-title">🧑‍🏫 Unassign Teacher</h5>
+                    <p class="card-text">Remove teacher assignment from any course.</p>
+                    <a href="@Url.Action("UnassignTeacher", "Admin")" class="btn btn-outline-danger">Go to Unassign</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Assign Teacher -->
+        <div class="col-md-4">
+            <div class="card shadow-lg mb-4">
+                <div class="card-body text-center">
+                    <h5 class="card-title">🧑‍🏫 Assign Teacher</h5>
+                    <p class="card-text">Assign a teacher to unassigned courses.</p>
+                    <a href="@Url.Action("AssignTeacher", "Admin")" class="btn btn-dark">Go to Assign</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,89 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using LMSProject.Models
+@inject UserManager<ApplicationUser> UserManager
+@model List<LMSProject.Models.Assignment>
+
+@{
+    ViewData["Title"] = "My Assignments";
+    var today = DateTime.Now;
+    var submissions = ViewBag.Submissions as List<Submission> ?? new();
+    var studentId = UserManager.GetUserId(User);
+}
+
+<h2 class="text-center mb-4">📝 My Assignments</h2>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger text-center">@TempData["Error"]</div>
+}
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success text-center">@TempData["Success"]</div>
+}
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info text-center">You have no assignments yet.</div>
+}
+else
+{
+    <table class="table table-hover">
+        <thead class="table-dark text-center">
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Course</th>
+                <th>Due Date</th>
+                <th>Download</th>
+                <th>Submit</th>
+            </tr>
+        </thead>
+        <tbody class="align-middle text-center">
+            @foreach (var assignment in Model)
+            {
+                var submission = submissions.FirstOrDefault(s => s.AssignmentId == assignment.Id && s.StudentId == studentId);
+                bool isSubmitted = submission != null;
+                bool isLate = assignment.DueDate < today;
+
+                <tr>
+                    <td>@assignment.Title</td>
+                    <td>@assignment.Description</td>
+                    <td>@assignment.Course?.Title</td>
+                    <td>@assignment.DueDate.ToString("dd MMM yyyy")</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(assignment.FilePath))
+                        {
+                            <a href="@assignment.FilePath" class="btn btn-sm btn-outline-primary" target="_blank">Download</a>
+                        }
+                        else
+                        {
+                            <span class="text-muted">No file</span>
+                        }
+                    </td>
+                    <td>
+                        @if (isSubmitted)
+                        {
+                            <span class="badge bg-success">✅ Submitted</span>
+                            <br />
+                            <a href="@submission.FilePath" class="btn btn-sm btn-outline-secondary mt-1" target="_blank">View</a>
+                        }
+                        else if (isLate)
+                        {
+                            <span class="badge bg-danger">⛔ Deadline Passed</span>
+                        }
+                        else
+                        {
+                            <form asp-action="SubmitAssignment" asp-controller="Student" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="AssignmentId" value="@assignment.Id" />
+                                <div class="input-group">
+                                    <input type="file" name="File" class="form-control form-control-sm" accept=".pdf,.doc,.docx" required />
+                                    <button type="submit" class="btn btn-success btn-sm">Submit</button>
+                                </div>
+                            </form>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

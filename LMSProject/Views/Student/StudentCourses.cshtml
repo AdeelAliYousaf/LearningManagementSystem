@@ -1,0 +1,41 @@
+﻿@model List<LMSProject.Models.Course>
+
+@{
+    ViewData["Title"] = "My Courses";
+    var className = ViewBag.ClassName as string ?? "Your Class";
+}
+
+<div class="container py-4">
+    <h2 class="text-center mb-4">📚 Courses for @className</h2>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info text-center">You are not enrolled in any courses.</div>
+    }
+    else
+    {
+        <table class="table table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Course Title</th>
+                    <th>Description</th>
+                    <th>Teacher</th>
+                    <th>Department</th>
+                    <th>Enrolled On</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var course in Model)
+                {
+                    <tr>
+                        <td>@course.Title</td>
+                        <td>@course.Description</td>
+                        <td>@(course.Teacher?.FullName ?? "N/A")</td>
+                        <td>@course.Department</td>
+                        <td>@course.CreatedAt.ToLocalTime().ToString("dd MMM yyyy")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

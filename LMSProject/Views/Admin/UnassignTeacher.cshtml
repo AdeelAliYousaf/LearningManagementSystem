@@ -1,0 +1,52 @@
+﻿@model List<LMSProject.Models.Course>
+
+@{
+    ViewData["Title"] = "Unassign Teacher from Course";
+}
+
+<div class="container py-4">
+    <h2 class="text-center mb-4">🚫 Unassign Teacher from Course</h2>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info text-center">No courses with assigned teachers found.</div>
+    }
+    else
+    {
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Course</th>
+                    <th>Description</th>
+                    <th>Assigned Teacher</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var course in Model)
+                {
+                    <tr>
+                        <td>@course.Title</td>
+                        <td>@course.Description</td>
+                        <td>@(course.Teacher?.FullName ?? "N/A")</td>
+                        <td>
+                            <form asp-action="UnassignTeacher" method="post" onsubmit="return confirm('Are you sure you want to unassign this teacher?');">
+                                <input type="hidden" name="courseId" value="@course.Id" />
+                                <button type="submit" class="btn btn-danger btn-sm">Unassign</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

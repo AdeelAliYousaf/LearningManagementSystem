@@ -1,0 +1,60 @@
+﻿@model LMSProject.ViewModels.UploadAssignmentViewModel
+@{
+    ViewData["Title"] = "Upload Assignment";
+    var courses = ViewBag.Courses as List<Course> ?? new();
+    var classList = ViewBag.Classes as List<string> ?? new();
+}
+
+<div class="container py-4">
+    <h2 class="text-center mb-4">📤 Upload New Assignment</h2>
+
+    <form asp-action="UploadAssignment" asp-controller="Teacher" enctype="multipart/form-data" method="post">
+        <div class="mb-3">
+            <label class="form-label">Title</label>
+            <input asp-for="Title" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea asp-for="Description" class="form-control" rows="4" required></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Due Date</label>
+            <input asp-for="DueDate" type="date" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Select Course</label>
+            <select asp-for="CourseId" class="form-select" required>
+                <option value="">-- Select Course --</option>
+                @foreach (var course in courses)
+                {
+                    <option value="@course.Id">@course.Title</option>
+                }
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Assign to Classes</label>
+            <select asp-for="SelectedClasses" class="form-select" multiple required>
+                @foreach (var c in classList)
+                {
+                    <option value="@c">@c</option>
+                }
+            </select>
+            <small class="text-muted">Hold Ctrl (Windows) or Cmd (Mac) to select multiple.</small>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Assignment File (PDF/Docx)</label>
+            <input asp-for="File" type="file" class="form-control" accept=".pdf,.doc,.docx" required />
+        </div>
+
+        <button type="submit" class="btn btn-success">Upload Assignment</button>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

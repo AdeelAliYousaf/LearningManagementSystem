@@ -1,0 +1,52 @@
+﻿@model List<Assignment>
+@{
+    ViewData["Title"] = "Manage Assignments";
+}
+<div class="container py-4">
+    <h2 class="text-center mb-4">📝 Assignment Management</h2>
+
+    <div class="d-flex justify-content-end mb-3">
+        <a href="@Url.Action("UploadAssignment", "Teacher")" class="btn btn-success me-2">➕ Upload Assignment</a>
+        <a href="@Url.Action("UploadedAssignments", "Teacher")" class="btn btn-primary">📄 View Uploaded Assignments</a>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info text-center">No assignments have been created yet.</div>
+    }
+    else
+    {
+        <table class="table table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Title</th>
+                    <th>Course</th>
+                    <th>Deadline</th>
+                    <th>Classes</th>
+                    <th>File</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var assignment in Model)
+                {
+                    <tr>
+                        <td>@assignment.Title</td>
+                        <td>@assignment.Course?.Title</td>
+                        <td>@assignment.DueDate.ToString("dd MMM yyyy")</td>
+                        <td>@assignment.TargetClasses</td>
+                        <td>
+                            @if (!string.IsNullOrEmpty(assignment.FilePath))
+                            {
+                                <a href="@Url.Content(assignment.FilePath)" target="_blank">📎 Download</a>
+                            }
+                            else
+                            {
+                                <span class="text-muted">No file</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

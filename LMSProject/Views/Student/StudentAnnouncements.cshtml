@@ -1,0 +1,25 @@
+﻿@model List<Announcement>
+
+@{
+    ViewData["Title"] = "Announcements";
+}
+
+<h2 class="text-center mb-4">📢 Latest Announcements</h2>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info text-center">No announcements posted yet.</div>
+}
+else
+{
+    <div class="list-group">
+        @foreach (var ann in Model)
+        {
+            <div class="list-group-item">
+                <h5 class="mb-1">@ann.Title</h5>
+                <small>Posted on @ann.CreatedAt.ToString("dd MMM yyyy") | Course: @ann.Course?.Title</small>
+                <p class="mb-1">@ann.Message</p>
+            </div>
+        }
+    </div>
+}
