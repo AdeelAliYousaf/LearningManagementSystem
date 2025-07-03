@@ -6,23 +6,23 @@ This is a full-featured Learning Management System (LMS) built using **ASP.NET C
 
 ## 🚀 Features
 
-### 🔑 Authentication & Authorization
+### Authentication & Authorization
 - Role-based login system for **Admin**, **Teachers**, and **Students**
 - Secure identity management using ASP.NET Core Identity
 
-### 👨‍🏫 Admin Portal
+### Admin Portal
 - Enroll teachers and students with flexible form controls
 - Create and manage courses
 - Assign teachers to specific courses
 
-### 👩‍🏫 Teacher Portal
+### Teacher Portal
 - View and manage assigned courses
 - Upload assignments with file support
 - Make announcements
 - View student submissions
 - Grade assignments (A–F)
 
-### 👨‍🎓 Student Portal
+### Student Portal
 - View enrolled courses
 - Download assignments
 - Upload submissions
@@ -31,12 +31,12 @@ This is a full-featured Learning Management System (LMS) built using **ASP.NET C
 
 ---
 
-## 🧰 Tech Stack
+## Tech Stack
 
 - **ASP.NET Core MVC 9.0**
 - **Entity Framework Core**
 - **ASP.NET Core Identity**
-- **SQL Server** (via LocalDB or full SQL Server)
+- **SQL Server** (via full SQL Server)
 - **Bootstrap 5** (for responsive UI)
 - **Visual Studio 2022 Preview**
 
